@@ -8,13 +8,34 @@ const styles = {
 };
 
 class App extends Component {
+  state = {
+    color: "black",
+    bold: false,
+    italic: false,
+    underline: false
+  };
+
+  colorchange = color => {
+    this.setState({ color: color });
+  };
+  setStyle = style => {
+    this.setState({ [style]: !this.state[style] });
+  };
+
+  //Write a function
+  // This function receieves a color as a parameter
+  //This function sets the state as per the color received
   render() {
     let styleNames = ["bold", "italic", "underline"];
     let colors = ["yellow", "blue", "red", "black", "purple"];
 
     let stylingBoxes = styleNames.map(style => {
       return (
-        <button style={styles[style]} key={style}>
+        <button
+          onClick={() => this.setStyle(style)}
+          style={styles[style]}
+          key={style}
+        >
           {style}
         </button>
       );
@@ -23,6 +44,9 @@ class App extends Component {
     let colorBoxes = colors.map(color => {
       return (
         <button
+          onClick={() => {
+            this.colorchange(color);
+          }}
           style={{ backgroundColor: color, height: 30, width: 30 }}
           key={color}
         />
@@ -32,7 +56,14 @@ class App extends Component {
     return (
       <div className="App">
         <div className="my-3">{stylingBoxes}</div>
-        <textarea />
+        <textarea
+          style={{
+            color: this.state.color,
+            fontWeight: this.state.bold ? "bold" : "",
+            fontStyle: this.state.italic ? "italic" : "",
+            textDecorationLine: this.state.underline ? "underline" : ""
+          }}
+        />
         <div className="my-3">{colorBoxes}</div>
       </div>
     );
